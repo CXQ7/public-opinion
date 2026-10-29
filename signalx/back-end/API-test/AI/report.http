@@ -1,0 +1,9 @@
+### 1. 基于报告问答
+POST {{baseUrl}}/api/v1/qa/ask/report
+# Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "reportId": 1,
+  "question": "这份报告的核心观点是什么？"
+}

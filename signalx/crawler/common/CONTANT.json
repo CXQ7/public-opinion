@@ -1,0 +1,57 @@
+{
+    "douyin": {
+        "base_url": "https://www.douyin.com",
+        "By": {
+            "article_item": "class name",
+            "filter_btn": "xpath",
+            "filter_option_sort_time": "xpath",
+            "filter_option_time_day": "xpath",
+            "img": "css selector",
+            "like_count": "xpath",
+            "picture_tag": "xpath",
+            "content": "xpath",
+            "author": "xpath",
+            "publish_datetime": "xpath",
+            "page_end": "xpath"
+        },
+        "find_element": {
+            "article_item": "search-result-card",
+            "filter_btn": "//*[@id=\"search-content-area\"]/div/div[1]/div[1]/div[1]/div[1]/div/div[3]",
+            "filter_option_sort_time": "//*[@id=\"search-content-area\"]/div/div[1]/div[1]/div[1]/div[1]/div/div[3]/div/div[1]/span[2]",
+            "filter_option_time_day": "//*[@id=\"search-content-area\"]/div/div[1]/div[1]/div[1]/div[1]/div/div[3]/div/div[2]/span[2]",
+            "img": "div > div > div.LFQCShEn.videoImage > div > div.VCzQd6LR > img",
+            "like_count": {
+                "note": "div/div/div[1]/div/div[2]/div/div[2]/span",
+                "video": "div/div/div[1]/div/div[2]/div/div[3]/span"
+            },
+            "picture_tag": "div/div/div[1]/div/div[2]/div/div[1]/div/span",
+            "content": "div/div/div[2]/div/div[1]",
+            "author": "div/div/div[2]/div/div[2]/span[1]/span[2]",
+            "publish_datetime": "div/div/div[2]/div/div[2]/span[2]",
+            "page_end": "//*[@id=\"waterFallScrollContainer\"]/div"
+        }
+    },
+    "weibo": {
+        "base_url": "https://m.weibo.cn/search?containerid=100103type%3D1%26q%3D",
+        "By": {
+            "article_item": "class name",
+            "filter_option_sort_time": "xpath",
+            "content": "class name",
+            "author": "xpath",
+            "publish_datetime": "xpath",
+            "share_count": "xpath",
+            "comment_count": "xpath",
+            "like_count": "xpath"
+        },
+        "find_element": {
+            "article_item": "card-main",
+            "filter_option_sort_time": "//*[@id=\"app\"]/div[1]/div[1]/div[2]/div[2]/div[1]/div/div/div/ul/li[2]/span",
+            "content": "weibo-text",
+            "author": "header/div/div/a/h3",
+            "publish_datetime": "header/div/div/h4/span[1]",
+            "share_count": "footer/div[1]/h4",
+            "comment_count": "footer/div[2]/h4",
+            "like_count": "footer/div[3]/h4"
+        }
+    }
+}

@@ -1,0 +1,4 @@
+### 获取资讯列表 (带任务类型)
+GET {{baseUrl}}/api/v1/news/list?taskId=3&taskType=1&page=1&size=50
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json

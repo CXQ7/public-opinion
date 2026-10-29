@@ -1,0 +1,12 @@
+### 1. 创建新的监测任务（用于验证“定时任务 -> ReportService -> SMTP邮件”自动链路）
+POST {{baseUrl}}/api/v1/task/create
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "keywords": ["人工智能", "AI"],
+  "startTime": "2026-01-30T00:00:00",
+  "endTime": "2026-02-06T00:00:00",
+  "interval": 1
+}

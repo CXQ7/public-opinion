@@ -1,0 +1,27 @@
+### 测试爬虫服务的 OpenClaw 抓取接口 (127.0.0.1:8000)
+# 异步化改造后：此接口将立即返回 code: 0，具体结果请观察 Java 控制台 OpenclawCallbackJob 的日志
+# ⚠️ 注意：测试前请先执行 create.http，生成的 openclaw_task_id 会被自动塞入这里的变量中！确保 taskId 真实存在于数据库中。
+POST http://127.0.0.1:8000/api/v1/openclaw/crawl
+Content-Type: application/json
+
+{
+  "taskId": {{openclaw_task_id}},
+  "name": "南方周末定制化监测",
+  "url": "https://www.infzm.com/",
+  "crawlLogic": "请抓取首页最新的 3 条新闻。要求严格返回 JSON 数组格式，禁止输出任何其他解释性文字。每个元素必须包含：title, content (摘要), url, source (设定为'南方周末')。",
+  "interval": 60
+}
+
+### 测试爬虫服务的报表生成接口 (127.0.0.1:8000)
+# 异步化改造后：此接口将立即返回，报表结果将通过 Redis 回传至后端
+POST http://127.0.0.1:8000/api/v1/openclaw/report
+Content-Type: application/json
+
+{
+  "taskId": {{openclaw_task_id}},
+  "rawContent": "Title: 南方周末新文\nContent: 这是一个关于社会深度的报道...\nUrl: https://www.infzm.com/post/1\n---\nTitle: 经济观察\nContent: 探讨最新的财经趋势...\nUrl: https://www.infzm.com/post/2",
+  "crawlLogic": "请根据以上抓取到的内容，为我生成一份舆情深度分析报告。"
+}
+
+### 测试爬虫服务健康检查
+GET http://127.0.0.1:8000/api/v1/health

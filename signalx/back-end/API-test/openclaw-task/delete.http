@@ -1,0 +1,10 @@
+### 删除 Openclaw 定时任务
+POST {{baseUrl}}/api/v1/openclaw-task/{{openclaw_task_id}}/delete
+Content-Type: application/json
+Authorization: __CONFIGURE_LOCALLY__
+
+> {%
+    client.test("Delete successful", function() {
+        client.assert(response.body.data === true);
+    });
+%}

@@ -1,0 +1,29 @@
+### 切换 Openclaw 任务开关 (停用/启用)
+POST {{baseUrl}}/api/v1/openclaw-task/{{openclaw_task_id}}/switch
+Content-Type: application/json
+Authorization: __CONFIGURE_LOCALLY__
+
+{
+  "enable": false
+}
+
+> {%
+    client.test("Status switched", function() {
+        client.assert(response.body.data.status === "INACTIVE");
+    });
+%}
+
+### 再次开启
+POST {{host}}/api/v1/openclaw-task/{{openclaw_task_id}}/switch
+Content-Type: application/json
+Authorization: __CONFIGURE_LOCALLY__
+
+{
+  "enable": true
+}
+
+> {%
+    client.test("Status switched", function() {
+        client.assert(response.body.data.status === "ACTIVE");
+    });
+%}

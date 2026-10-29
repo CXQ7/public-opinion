@@ -1,0 +1,8 @@
+### 5. 删除用户
+POST {{baseUrl}}/api/v1/user/delete
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json
+
+{
+  "id": 24
+}

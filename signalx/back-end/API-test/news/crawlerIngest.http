@@ -1,0 +1,17 @@
+### Crawler ingest (push crawled news back to backend)
+POST {{baseUrl}}/api/v1/internal/crawler/news/batchUpsert
+# X-Crawler-Token: your_shared_token
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "taskId": 1,
+      "title": "Demo News Title",
+      "content": "Demo content...",
+      "url": "https://example.com/news/1",
+      "source": "example",
+      "publishTime": "2026-01-29 12:34:56"
+    }
+  ]
+}

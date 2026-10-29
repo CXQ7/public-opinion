@@ -1,0 +1,8 @@
+### 1. 用户登录
+POST {{baseUrl}}/api/v1/user/login
+Content-Type: application/json
+
+{
+  "username": "test_user2",
+  "password": "password123"
+}

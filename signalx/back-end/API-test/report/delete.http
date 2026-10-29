@@ -1,0 +1,5 @@
+### 3. 删除报告
+# 注意：替换 {id} 为实际 reportId
+DELETE {{baseUrl}}/api/v1/report/1
+# Authorization: Bearer {{token}}
+Content-Type: application/json

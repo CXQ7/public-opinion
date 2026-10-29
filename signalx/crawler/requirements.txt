@@ -1,0 +1,40 @@
+# Core HTTP service
+fastapi
+uvicorn
+
+# Data / DB
+SQLAlchemy
+mysql-connector-python
+pandas
+
+# HTTP
+requests
+
+# LLM / sentiment
+openai
+snownlp
+
+# Logging / utils
+loguru
+colorlog
+ujson
+click
+
+# Web / parsing
+beautifulsoup4
+lxml
+PyExecJS
+copyheaders
+
+# Browser automation (optional, used by some sources)
+selenium
+
+# Crypto (required by xhshow)
+pycryptodome
+
+# NOTE: This project also depends on an internal package: publicity_idl
+# Install it separately (e.g. from your internal index / repo).
+
+
+# cd crawler
+# python -m pip install -r requirements.txt

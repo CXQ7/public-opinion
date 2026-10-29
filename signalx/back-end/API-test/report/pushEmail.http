@@ -1,0 +1,6 @@
+### Push report to email (demo)
+POST {{baseUrl}}/api/v1/report/6/pushEmail
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json
+
+{}

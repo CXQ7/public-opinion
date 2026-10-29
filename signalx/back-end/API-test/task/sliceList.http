@@ -1,0 +1,4 @@
+### 6. 获取指定任务下的切片(事件)
+GET {{baseUrl}}/api/v1/analysis/slices?taskId=1&userId=1&page=1&size=10
+# Authorization: Bearer {{token}}
+Content-Type: application/json

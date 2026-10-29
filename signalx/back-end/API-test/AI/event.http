@@ -1,0 +1,9 @@
+### 2. 基于事件链问答
+POST {{baseUrl}}/api/v1/qa/ask/event
+# Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "eventId": 1,
+  "question": "这个事件的发展趋势如何？"
+}

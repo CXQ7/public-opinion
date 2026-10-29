@@ -1,0 +1,98 @@
+server:
+  port: 8180
+
+#spring:
+#  profiles:
+#    active: dev
+#  main:
+#    allow-circular-references: true
+#  datasource:
+#    druid:
+#      driver-class-name: ${sky.datasource.driver-class-name}
+#      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+#      username: ${sky.datasource.username}
+#      password: ${sky.datasource.password}
+#
+mybatis-plus:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.edu.xmu.domain.po
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      sky:
+        mapper: debug
+        service: info
+        controller: info
+
+spring:
+  application:
+    name: biz-service
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: ${rhythm.mysql.driver-class-name}
+    url: jdbc:mysql://${rhythm.mysql.host}:${rhythm.mysql.port}/${rhythm.mysql.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${LOCAL_USERNAME}
+    password: ${LOCAL_PASSWORD}
+  data:
+    # redis配置
+    redis:
+      # Redis服务器地址
+      host: ${rhythm.redis.host}
+      database: ${rhythm.redis.database}
+      # Redis服务器连接端口
+      port: ${rhythm.redis.port}
+      # Redis服务器连接密码（默认为空）
+      password: ${LOCAL_PASSWORD}
+      # 连接超时时间
+      timeout: 10s
+      lettuce:
+        pool:
+          # 连接池最大连接数
+          max-active: 200
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: -1ms
+          # 连接池中的最大空闲连接
+          max-idle: 10
+          # 连接池中的最小空闲连接
+          min-idle: 0
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        enabled: true
+      server-addr: 127.0.0.1:8848
+      discovery:
+        # 显式指定与 config 相同的服务器地址
+        server-addr: 127.0.0.1:8848
+knife4j:
+  enable: true
+  openapi:
+    title: 天眼接口文档
+    description: "天眼接口文档"
+    email: xxxxx@qq.com
+    concat: baleines
+    url: https://localhost
+    version: v1.0.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - cn.edu.xmu.controller
+elasticsearch:
+  #多个IP逗号隔开:集群时用到
+  #hosts: 127.0.0.1:9201,127.0.0.1:9202,127.0.0.1:9203
+#  hosts: ${rhythm.es.host}:${rhythm.es.port}
+#  username: elastic
+#  password: IAmFarmer
+#  apikey:
+  # 本地配置
+  host: ${rhythm.es.host}
+  port: ${rhythm.es.port}

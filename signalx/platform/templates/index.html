@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>政企讯息观测分析平台</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 30px;
+            background: #f5f5f5;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        #chatbox {
+            height: 600px;
+            border: 2px solid #ddd;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        #userInput {
+            flex: 1;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+        }
+        #userInput:focus {
+            border-color: #007acc;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background: #007acc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #005a9e;
+        }
+
+        button.secondary {
+            background: #e8f4fc;
+            color: #007acc;
+            border: 1px solid #cfe8fa;
+        }
+        button.secondary:hover {
+            background: #d8eefc;
+        }
+
+        /* 下拉框样式 */
+        #aiSelect {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            background: white;
+            outline: none;
+        }
+        #aiSelect:hover {
+            border-color: #007acc;
+        }
+
+        /* 状态栏样式 */
+        .status {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #007acc;
+            padding: 10px 15px;
+            background: #e8f4fc;
+            border-radius: 6px;
+        }
+
+        /* 聊天消息样式优化 */
+        #chatbox p {
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            line-height: 1.6;
+        }
+        #chatbox p:nth-child(odd) {
+            background: #f9f9f9;
+        }
+
+        .panel {
+            margin-top: 18px;
+            padding: 16px;
+            background: #ffffff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .panel h2 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .panel .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #666;
+        }
+
+        #board {
+            margin-top: 12px;
+            max-height: 260px;
+            overflow-y: auto;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .board-item {
+            padding: 8px 10px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            background: #fafafa;
+        }
+
+        .board-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #e8f4fc;
+            color: #007acc;
+            font-size: 12px;
+            margin-right: 6px;
+        }
+
+        .tag.bad {
+            background: #fdecea;
+            color: #b42318;
+        }
+    </style>
+</head>
+<body>
+    <h1> 政企讯息观测分析平台</h1>
+
+    <div id="chatbox"></div>
+
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="输入你的问题，按 Enter 发送..." />
+        <button onclick="sendQuery()">发送</button>
+        <select id="aiSelect" onchange="onAIChange()">
+            <option value="0">Deepseek</option>
+            <option value="1">OpenRouter</option>
+        </select>
+    </div>
+
+    <p class="status"> 当前使用：<span id="currentAI">Deepseek</span></p>
+
+    <div class="panel">
+        <h2>爬虫实时看板</h2>
+        <div class="row small">
+            <span>爬虫默认模型（不传 ai_index 时生效）：</span>
+            <strong id="crawlerDefault">加载中...</strong>
+            <button class="secondary" onclick="setCrawlerModel(0)">爬虫用 Deepseek</button>
+            <button class="secondary" onclick="setCrawlerModel(1)">爬虫用 OpenRouter</button>
+        </div>
+        <div class="small" style="margin-top:8px;">
+            下面会展示最近的 /api/sentiment 调用：标题、模型、结果（每 5 秒刷新）。
+        </div>
+        <div id="board"></div>
+    </div>
+
+    <script>
+        const aiConfig = [
+            { name: "Deepseek" },
+            { name: "OpenRouter" }
+        ];
+
+        let currentAIIndex = 0;
+
+        document.getElementById("userInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                sendQuery();
+            }
+        });
+
+        function applyModelData(data) {
+            if (!data || !data.ok) return;
+
+            currentAIIndex = parseInt(data.ai_index);
+            document.getElementById("aiSelect").value = String(currentAIIndex);
+            document.getElementById("currentAI").textContent = aiConfig[currentAIIndex]?.name || String(currentAIIndex);
+
+            const provider = data.provider || "?";
+            const model = data.model || "?";
+            document.getElementById("crawlerDefault").textContent = `${currentAIIndex} / ${provider} / ${model}`;
+        }
+
+        function loadModel() {
+            return fetch("/api/model")
+                .then(r => r.json())
+                .then(applyModelData)
+                .catch(() => {
+                    document.getElementById("crawlerDefault").textContent = "(获取失败)";
+                });
+        }
+
+        function setDefaultModel(aiIndex) {
+            return fetch("/api/model", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ai_index: aiIndex })
+            })
+                .then(r => r.json())
+                .then((data) => {
+                    applyModelData(data);
+                    addMessage(` 已切换到：${aiConfig[parseInt(data.ai_index)]?.name || data.provider || data.ai_index}`, "system");
+                })
+                .catch(() => {
+                    addMessage("错误：无法设置默认模型", "system");
+                    // 回滚为服务端状态
+                    loadModel();
+                });
+        }
+
+        function onAIChange() {
+            const selectBox = document.getElementById("aiSelect");
+            const nextIndex = parseInt(selectBox.value);
+            setDefaultModel(nextIndex);
+        }
+
+        function setCrawlerModel(aiIndex) {
+            setDefaultModel(aiIndex);
+        }
+
+        function formatBoardTs(ts) {
+            if (!ts) return "";
+            const d = new Date(ts);
+            if (Number.isNaN(d.getTime())) return String(ts);
+            return d.toLocaleString("zh-CN", { hour12: false });
+        }
+
+        function renderBoard(items) {
+            const board = document.getElementById("board");
+            board.innerHTML = "";
+
+            if (!items || items.length === 0) {
+                const empty = document.createElement("div");
+                empty.className = "small";
+                empty.textContent = "暂无爬虫侧调用记录（等爬虫跑起来后这里会出现标题）";
+                board.appendChild(empty);
+                return;
+            }
+
+            // 倒序展示最新在上
+            const list = [...items].reverse();
+            for (const it of list) {
+                const div = document.createElement("div");
+                div.className = "board-item";
+
+                const ok = !!it.ok;
+                const tag = ok
+                    ? `<span class="tag">OK</span>`
+                    : `<span class="tag bad">FAIL</span>`;
+                const modelInfo = `${it.ai_index} / ${it.provider || "?"} / ${it.model || "?"}`;
+                const ts = formatBoardTs(it.ts);
+                const titles = Array.isArray(it.titles) ? it.titles : [];
+                const results = Array.isArray(it.results) ? it.results : null;
+
+                let html = `<div class="board-head">`;
+                html += `<div>${tag}<strong class="mono">${modelInfo}</strong></div>`;
+                html += ts ? `<div class="small">${ts}</div>` : `<div></div>`;
+                html += `</div>`;
+                if (titles.length > 0) {
+                    html += `<div style="margin-top:6px;"><strong>标题</strong>：${titles.join("；")}</div>`;
+                }
+                if (ok && results) {
+                    html += `<div class="small" style="margin-top:6px;"><strong>情感</strong>：${results.join(", ")}</div>`;
+                }
+                if (!ok && it.error) {
+                    html += `<div class="small" style="margin-top:6px;color:#b42318;"><strong>错误</strong>：${it.error}</div>`;
+                }
+
+                div.innerHTML = html;
+                board.appendChild(div);
+            }
+        }
+
+        function refreshBoard() {
+            fetch("/api/board?limit=30")
+                .then(r => r.json())
+                .then(data => {
+                    if (!data || !data.ok) return;
+                    renderBoard(data.items);
+                })
+                .catch(() => {
+                    // 不刷屏
+                });
+        }
+
+        // 页面加载：拉一次默认模型；看板每 5 秒刷新
+        loadModel();
+        refreshBoard();
+        setInterval(refreshBoard, 5000);
+
+        function sendQuery() {
+            const inputBox = document.getElementById("userInput");
+            const message = inputBox.value.trim();
+            if (!message) return;
+
+            addMessage(message, "user");
+            inputBox.value = "";
+
+            fetch("/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    message: message,
+                    ai_index: currentAIIndex
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                addMessage(data.response, "bot");
+            })
+            .catch(err => {
+                addMessage(" 错误：无法连接到服务器", "system");
+            });
+        }
+
+        function addMessage(text, sender) {
+            const chatbox = document.getElementById("chatbox");
+            const msg = document.createElement("p");
+            msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            chatbox.appendChild(msg);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

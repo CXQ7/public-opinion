@@ -1,0 +1,21 @@
+### 创建 Openclaw 定时任务
+POST {{baseUrl}}/api/v1/openclaw-task/create
+Content-Type: application/json
+Authorization: __CONFIGURE_LOCALLY__
+
+{
+  "name": "示例网站信息学院新闻采集",
+  "url": "https://localhost/",
+  "crawlLogic": "采集该页面下所有新闻标题、发布日期及详情页内容，并提取关键词。",
+  "interval": 60,
+  "startTime": "2025-03-17T00:00:00",
+  "endTime": "2026-1-31T23:59:59"
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.code === 200, "Business code is not 200");
+    });
+    client.global.set("openclaw_task_id", response.body.data);
+%}

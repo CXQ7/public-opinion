@@ -1,0 +1,14 @@
+.vscode
+下载/
+test.py
+user.*
+cookie.*
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.manifest
+*.spec
+build/
+
+aria2c.exe

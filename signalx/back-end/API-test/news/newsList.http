@@ -1,0 +1,4 @@
+### 1. 获取资讯列表
+GET {{baseUrl}}/api/v1/news/list?keyword=AI&page=1&size=10
+# Authorization: Bearer {{token}}
+Content-Type: application/json

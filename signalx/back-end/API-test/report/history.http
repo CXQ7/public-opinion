@@ -1,0 +1,4 @@
+### 1. 获取指定任务下的报告历史
+GET {{baseUrl}}/api/v1/report/list?taskId=1&page=1&size=10
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json

@@ -1,0 +1,13 @@
+.idea
+*.pyc
+config/last_info.json
+config/source_set.json
+config/keyword_set.json
+douyin/logs
+**/node_modules
+
+# log
+logs
+*.log
+
+__pycache__

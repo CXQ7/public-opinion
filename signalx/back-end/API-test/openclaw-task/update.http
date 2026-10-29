@@ -1,0 +1,17 @@
+### 更新 Openclaw 任务配置
+POST {{baseUrl}}/api/v1/openclaw-task/{{openclaw_task_id}}/update
+Content-Type: application/json
+Authorization: __CONFIGURE_LOCALLY__
+
+{
+  "name": "示例网站信息学院新闻采集(更新版)",
+  "url": "https://localhost/",
+  "crawlLogic": "更新后的逻辑：重点采集奖学金相关的新闻。",
+  "interval": 30
+}
+
+> {%
+    client.test("Update successful", function() {
+        client.assert(response.body.data === true);
+    });
+%}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.xmu.mapper.KeywordMapper">
+
+    <!-- 根据搜索关键词查询关键词列表，如果没有提供关键词则查询所有 -->
+    <select id="getKeywordsList" resultType="cn.edu.xmu.domain.po.Keyword">
+        SELECT * FROM keyword
+        <where>
+            <!-- 动态添加搜索条件 -->
+            <if test="searchTerm != null and searchTerm != ''">
+                keyword LIKE CONCAT('%', #{searchTerm}, '%')
+            </if>
+        </where>
+        order by heat desc
+    </select>
+
+</mapper>

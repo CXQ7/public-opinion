@@ -1,0 +1,7 @@
+### 手动触发报表生成 (标准任务)
+GET http://localhost:8080/api/v1/report/test/trigger?taskId=1&taskType=0
+Content-Type: application/json
+
+### 手动触发报表生成 (Openclaw 任务)
+GET http://localhost:8080/api/v1/report/test/trigger?taskId=3&taskType=1
+Content-Type: application/json

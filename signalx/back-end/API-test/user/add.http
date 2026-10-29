@@ -1,0 +1,11 @@
+### 3. 新增用户
+POST {{baseUrl}}/api/v1/user/add
+# Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "password123",
+  "email": "919136629@qq.com",
+  "role": "USER"
+}

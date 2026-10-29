@@ -1,0 +1,43 @@
+server:
+  port: 8080
+rhythm:
+  jwt:
+    location: classpath:hmall.jks
+    alias: hmall
+    password: ${LOCAL_PASSWORD}
+    tokenTTL: 30m
+  auth:
+    excludePaths:
+      - /search/**
+      - /user/user/login
+      - /user/keyword/list
+      - /hello/**
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1
+    gateway:
+      routes:
+        - id: biz
+          uri: lb://biz-server
+#          predicates:
+#            - Path=/items/**,/search/**
+#        - id: user-service
+#          uri: lb://user-service
+#          predicates:
+#            - Path=/users/**,/addresses/**
+#        - id: cart-service
+#          uri: lb://cart-service
+#          predicates:
+#            - Path=/carts/**
+#        - id: pay-service
+#          uri: lb://pay-service
+#          predicates:
+#            - Path=/pay-orders/**
+#        - id: trade-service
+#          uri: lb://trade-service
+#          predicates:
+#            - Path=/orders/**

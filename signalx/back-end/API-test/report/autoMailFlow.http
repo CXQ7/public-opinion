@@ -1,0 +1,22 @@
+### A1. 创建任务（interval=1，约 1 分钟后触发生成报告并自动发邮件）
+POST {{baseUrl}}/api/v1/task/create
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "keywords": ["AUTO_MAIL_FLOW", "AI"],
+  "startTime": "2026-01-30T00:00:00",
+  "endTime": "2026-02-06T00:00:00",
+  "interval": 1
+}
+
+### A2. 等待 65~80 秒后，查任务列表，找到刚创建的 taskId
+GET {{baseUrl}}/api/v1/task/list?userId=1&page=1&size=10
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json
+
+### A3. 用上一步看到的 taskId 替换下面的 taskId=xxx，查报告列表
+GET {{baseUrl}}/api/v1/report/list?taskId=xxx&page=1&size=10
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json

@@ -1,0 +1,5 @@
+### 2. 获取单份报告详情
+# 注意：替换 {id} 为实际 reportId
+GET {{baseUrl}}/api/v1/report/1
+# Authorization: Bearer {{token}}
+Content-Type: application/json

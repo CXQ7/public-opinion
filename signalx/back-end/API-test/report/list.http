@@ -1,0 +1,9 @@
+### 获取报表列表 (标准任务)
+GET {{baseUrl}}/api/v1/report/list?taskId=1&taskType=0&page=1&size=10
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json
+
+### 获取报表列表 (Openclaw 任务)
+GET {{baseUrl}}/api/v1/report/list?taskId=3&taskType=1&page=1&size=10
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json

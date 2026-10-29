@@ -1,0 +1,4 @@
+### 2. 获取监测任务列表
+GET {{baseUrl}}/api/v1/task/list?userId=1&page=1&size=10
+# Authorization: Bearer {{token}}
+Content-Type: application/json

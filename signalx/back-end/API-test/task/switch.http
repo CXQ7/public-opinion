@@ -1,0 +1,9 @@
+### 4. 启停指定监测任务
+# 注意：替换 {taskId} 为实际 ID
+POST {{baseUrl}}/api/v1/task/1/switch
+# Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "enable": true
+}

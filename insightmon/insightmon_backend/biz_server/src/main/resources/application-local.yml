@@ -1,0 +1,19 @@
+rhythm:
+  mysql:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: 127.0.0.1
+    port: 3306
+    database: public_eye
+    username: ${LOCAL_USERNAME}
+    password: ${LOCAL_PASSWORD}
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: ${LOCAL_PASSWORD}
+    database: 0
+  es:
+    host: 127.0.0.1
+    port: 9200
+  nacos:
+    host: 127.0.0.1
+    port: 8848

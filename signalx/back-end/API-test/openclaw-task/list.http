@@ -1,0 +1,10 @@
+### 获取 Openclaw 任务列表 (看板)
+GET {{baseUrl}}/api/v1/openclaw-task/list?page=1&size=10
+Content-Type: application/json
+Authorization: __CONFIGURE_LOCALLY__
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}

@@ -1,0 +1,14 @@
+{
+  "appId": "com.signalx.app",
+  "appName": "SignalX",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

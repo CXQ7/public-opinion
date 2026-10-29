@@ -1,0 +1,41 @@
+# Local credentials and environments
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.jks
+*.keystore
+local.properties
+
+# Dependencies and generated files
+node_modules/
+target/
+dist/
+build/
+.gradle/
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.log
+logs/
+
+# Private data and pretrained artifacts
+data/
+train_data/
+debug/
+*.csv
+*.xlsx
+*.db
+*.sqlite*
+*.pt
+*.pth
+*.safetensors
+*.pkl
+*.zip
+*.apk
+*.aab

@@ -1,0 +1,99 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: signalx-backend
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 2000
+    jedis:
+      pool:
+        max-active: 20
+        max-idle: 10
+        min-idle: 5
+  datasource:
+    # Please update with your local database configuration
+    # url: jdbc:mysql://127.0.0.1:3306/signalx?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/signalx?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: ${LOCAL_USERNAME}
+    password: ${LOCAL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # 邮件推送（需要你在本地/服务器配置正确的SMTP账号与授权码）
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: ${LOCAL_USERNAME}
+    password: ${LOCAL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      logic-delete-field: isDeleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+coze:
+  api:
+    base-url: https://kgx96bdc42.coze.site
+    token: ${LOCAL_TOKEN}
+
+ai:
+  deepseek:
+    api-key: ${LOCAL_API_KEY}
+    base-url: https://api.deepseek.com
+    temperature: 1.3 # 较高的温度以激发多样性
+
+# 报告扫描间隔（原1分钟，改成5000毫秒=5秒） //默认为1分钟
+schedule:
+  report:
+    scanFixedRateMs: 5000
+    syncFixedRateMs: 5000
+
+  # 定时触发爬虫间隔（默认5分钟）
+  crawler:
+    fixedDelayMs: 300000
+    # Openclaw 任务扫描间隔（默认1分钟）
+    fixedDelayMsOpenclaw: 60000
+
+# 外部爬虫回传新闻入库（爬虫侧调用该接口时带 header: X-Crawler-Token）
+crawler:
+  ingest:
+    enabled: true
+    # token: your_shared_token
+
+  # 通过HTTP链接触发外部爬虫（配置了url就启用；未配置则使用NoopCrawlerRunner）
+  trigger:
+    url: http://localhost:8000/api/v1/crawler/start
+    method: POST # or GET
+    openclawUrl: http://localhost:8000/api/v1/openclaw/crawl
+    openclawReportUrl: http://localhost:8000/api/v1/openclaw/report
+    connectTimeoutMs: 2000
+    readTimeoutMs: 300000
+
+
+# 报告完成后邮件推送（默认推到任务所属用户邮箱；为空则使用 defaultTo）
+notify:
+  mail:
+    enabled: true
+    defaultTo: onejie6@qq.com
+    from: 359198768@qq.com
+    subjectPrefix: SignalX 报告
+
+rhythm:
+    cos:
+      enabled: true
+      secret-id: ${LOCAL_SECRET_ID}
+      secret-key: ${LOCAL_SECRET_KEY}
+      region: ap-guangzhou
+      bucket-name: rhythm-1357046761
+      base-path: reports/  # 存储基础路径

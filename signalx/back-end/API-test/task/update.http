@@ -1,0 +1,12 @@
+### 3. 更新指定任务的配置
+# 注意：替换 {taskId} 为实际 ID
+POST {{baseUrl}}/api/v1/task/1/update
+# Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "keywords": ["AI", "LLM"],
+  "startTime": "2026-01-30T00:00:00",
+  "endTime": "2026-02-06T00:00:00",
+  "interval": 360
+}

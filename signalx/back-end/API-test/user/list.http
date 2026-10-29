@@ -1,0 +1,4 @@
+### 2. 获取用户列表
+GET {{baseUrl}}/api/v1/user/list?page=1&size=10
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json

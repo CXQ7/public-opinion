@@ -1,0 +1,45 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Capacitor & Android
+android/app/build
+android/.gradle
+android/local.properties
+android/*/build
+android/captures
+android/gradlew
+android/gradlew.bat
+# Keep gradle wrapper
+!android/gradle/wrapper/gradle-wrapper.jar
+
+# Capacitor - iOS (if added later)
+ios/App/App/public/
+ios/App/Podfile.lock
+ios/App/Pods/
+
+input.md
+output.md
+src/views/ReportDetail.vue.bak
+android/app/signalx.keystore

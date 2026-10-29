@@ -1,0 +1,9 @@
+### 4. 更新用户信息
+POST {{baseUrl}}/api/v1/user/update
+Authorization: __CONFIGURE_LOCALLY__
+Content-Type: application/json
+
+{
+  "id": 2,
+  "email": "onejie6@qq.com"
+}

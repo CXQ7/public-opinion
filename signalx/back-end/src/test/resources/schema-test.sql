@@ -1,0 +1,87 @@
+DROP TABLE IF EXISTS slice;
+DROP TABLE IF EXISTS news;
+DROP TABLE IF EXISTS report;
+DROP TABLE IF EXISTS openclaw_task;
+DROP TABLE IF EXISTS task;
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user` (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(64) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  email VARCHAR(128),
+  role VARCHAR(32) DEFAULT 'USER',
+  status INT DEFAULT 1,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  is_deleted INT DEFAULT 0,
+  CONSTRAINT uk_user_username UNIQUE (username)
+);
+
+CREATE TABLE task (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT NOT NULL,
+  keywords VARCHAR(2000) NOT NULL,
+  start_time TIMESTAMP,
+  end_time TIMESTAMP,
+  `interval` INT,
+  status INT DEFAULT 1,
+  next_run_time TIMESTAMP,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  is_deleted INT DEFAULT 0
+);
+
+CREATE TABLE openclaw_task (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  url VARCHAR(1024) NOT NULL,
+  crawl_logic CLOB NOT NULL,
+  start_time TIMESTAMP,
+  end_time TIMESTAMP,
+  `interval` INT DEFAULT 60,
+  status INT DEFAULT 1,
+  next_run_time TIMESTAMP,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  is_deleted INT DEFAULT 0
+);
+
+CREATE TABLE report (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  task_id BIGINT NOT NULL,
+  task_type TINYINT DEFAULT 0,
+  name VARCHAR(255) NOT NULL,
+  summary CLOB,
+  coze_run_id VARCHAR(128),
+  file_url VARCHAR(512),
+  status INT DEFAULT 0,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE news (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  task_id BIGINT NOT NULL,
+  task_type TINYINT DEFAULT 0,
+  slice_id BIGINT,
+  title VARCHAR(255) NOT NULL,
+  content CLOB,
+  url VARCHAR(512) NOT NULL,
+  source VARCHAR(64) NOT NULL,
+  sentiment VARCHAR(32),
+  publish_time TIMESTAMP NOT NULL,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE slice (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  task_id BIGINT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  heat DOUBLE,
+  sentiment VARCHAR(32),
+  summary CLOB,
+  event_time TIMESTAMP,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

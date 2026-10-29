@@ -1,0 +1,64 @@
+server:
+  port: 8080
+
+#spring:
+#  profiles:
+#    active: dev
+#  main:
+#    allow-circular-references: true
+#  datasource:
+#    druid:
+#      driver-class-name: ${sky.datasource.driver-class-name}
+#      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+#      username: ${sky.datasource.username}
+#      password: ${sky.datasource.password}
+#
+mybatis-plus:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.edu.xmu.domain.po
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      sky:
+        mapper: debug
+        service: info
+        controller: info
+
+rainbow:
+  jwt:
+    location: classpath:rainbow.jks
+    alias: rainbow
+    password: ${LOCAL_PASSWORD}
+    tokenTTL: 30m
+
+
+spring:
+  application:
+    name: public-eye
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${dev-aliyun.datasource.host}:${dev-aliyun.datasource.port}/${dev-aliyun.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${LOCAL_USERNAME}
+    password: ${LOCAL_PASSWORD}
+knife4j:
+  enable: true
+  openapi:
+    title: 天眼接口文档
+    description: "天眼接口文档"
+    email: xxxxx@qq.com
+    concat: baleines
+    url: https://localhost
+    version: v1.0.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - cn.edu.xmu.controller
